@@ -53,38 +53,128 @@ function createStars() {
 }
 
 /* -------------------- audio -------------------- */
+const YT_TRACK_ID = "Ri3WsPDi4MY"; // Feelings — Peder B. Helland
+
 const Music = {
   ctx: null,
   master: null,
   started: false,
   muted: false,
-  track: null,
+  player: null,
+  ytReady: false,
+  wantPlay: false,
+
+  init() {
+    window.onYouTubeIframeAPIReady = () => this.setupPlayer();
+    if (window.YT && window.YT.Player) {
+      this.setupPlayer();
+      return;
+    }
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  },
+
+  bury(el) {
+    if (!el || !el.style) return;
+    const css = {
+      position: "fixed",
+      left: "-200vw",
+      top: "-200vh",
+      width: "200px",
+      height: "112px",
+      opacity: "0",
+      "pointer-events": "none",
+      transform: "translate(-200vw,-200vh)",
+      "z-index": "-9999",
+      overflow: "hidden",
+      border: "0",
+    };
+    Object.entries(css).forEach(([key, value]) => el.style.setProperty(key, value, "important"));
+    if (el.setAttribute) {
+      el.setAttribute("aria-hidden", "true");
+      el.setAttribute("width", "200");
+      el.setAttribute("height", "112");
+    }
+  },
+
+  hideFrames() {
+    this.bury($("#yt-wrap"));
+    this.bury($("#yt-player"));
+    document.querySelectorAll("iframe").forEach((frame) => this.bury(frame));
+  },
+
+  setupPlayer() {
+    if (this.player || !(window.YT && window.YT.Player)) return;
+    if (!this._watchFrames) {
+      this._watchFrames = new MutationObserver(() => this.hideFrames());
+      this._watchFrames.observe(document.body, { childList: true, subtree: true });
+      this._hideTimer = setInterval(() => this.hideFrames(), 300);
+    }
+    this.player = new YT.Player("yt-player", {
+      width: "200",
+      height: "112",
+      videoId: YT_TRACK_ID,
+      host: "https://www.youtube-nocookie.com",
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        modestbranding: 1,
+        rel: 0,
+        playsinline: 1,
+        loop: 1,
+        playlist: YT_TRACK_ID,
+        fs: 0,
+        iv_load_policy: 3,
+        origin: window.location.origin,
+      },
+      events: {
+        onReady: (e) => {
+          this.ytReady = true;
+          this.hideFrames();
+          e.target.setVolume(72);
+          if (this.wantPlay) this.playNow();
+        },
+        onStateChange: (e) => {
+          this.hideFrames();
+          if (e.data === YT.PlayerState.ENDED) {
+            e.target.seekTo(0);
+            e.target.playVideo();
+          }
+        },
+      },
+    });
+  },
+
+  playNow() {
+    if (!this.player || typeof this.player.playVideo !== "function") return;
+    if (this.muted) this.player.mute();
+    else this.player.unMute();
+    this.player.setVolume(72);
+    this.player.playVideo();
+    this.hideFrames();
+    $("#mute").classList.remove("hidden");
+  },
 
   start() {
-    if (this.started) return;
-    this.started = true;
-
-    this.track = $("#bg-music");
-    this.track.volume = 0.72;
-    this.track.loop = true;
-    this.track.currentTime = 0;
-    const playPromise = this.track.play();
-    if (playPromise && playPromise.catch) {
-      playPromise.catch(() => {
-        this.started = false;
-      });
+    this.wantPlay = true;
+    if (!this.started) {
+      this.started = true;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) {
+        this.ctx = new AC();
+        if (this.ctx.state === "suspended") this.ctx.resume();
+        this.master = this.ctx.createGain();
+        this.master.gain.value = 0.35;
+        this.master.connect(this.ctx.destination);
+      }
+    } else if (this.ctx && this.ctx.state === "suspended") {
+      this.ctx.resume();
     }
 
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (AC) {
-      this.ctx = new AC();
-      if (this.ctx.state === "suspended") this.ctx.resume();
-      this.master = this.ctx.createGain();
-      this.master.gain.value = 0.35;
-      this.master.connect(this.ctx.destination);
-    }
-
-    $("#mute").classList.remove("hidden");
+    if (this.ytReady) this.playNow();
+    else this.init();
   },
 
   heartbeat() {
@@ -110,7 +200,10 @@ const Music = {
 
   toggleMute() {
     this.muted = !this.muted;
-    if (this.track) this.track.muted = this.muted;
+    if (this.player) {
+      if (this.muted) this.player.mute();
+      else this.player.unMute();
+    }
     if (this.master) this.master.gain.setValueAtTime(this.muted ? 0 : 0.35, this.ctx.currentTime);
     $("#mute").classList.toggle("is-muted", this.muted);
     $("#mute").textContent = this.muted ? "🔇" : "♪";
@@ -144,18 +237,6 @@ async function playCountdown() {
     await sleep(1150);
   }
   await showScene("scene-peak");
-}
-
-function observeMemories() {
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("is-seen");
-      });
-    },
-    { threshold: 0.28 }
-  );
-  $$("[data-observe]").forEach((el) => io.observe(el));
 }
 
 function rainHearts() {
@@ -239,7 +320,6 @@ function applyPreview() {
   const scene = new URLSearchParams(location.search).get("scene");
   if (!scene) return;
   document.documentElement.classList.add("preview");
-  $$(".memory").forEach((el) => el.classList.add("is-seen"));
   if (scene === "countdown") {
     showScene("scene-countdown", true);
     $("#count-num").textContent = "3";
@@ -260,6 +340,6 @@ function applyPreview() {
 }
 
 createStars();
-observeMemories();
+Music.init();
 bindUi();
 applyPreview();

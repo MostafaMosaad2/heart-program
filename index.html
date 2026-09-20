@@ -9,21 +9,42 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <link rel="stylesheet" href="css/style.css?v=nophotos" />
+  <style>
+    #yt-wrap,
+    #yt-wrap iframe,
+    iframe[src*="youtube"],
+    iframe[src*="youtube-nocookie"] {
+      position: fixed !important;
+      left: -200vw !important;
+      top: -200vh !important;
+      width: 200px !important;
+      height: 112px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translate(-200vw, -200vh) !important;
+      z-index: -9999 !important;
+      overflow: hidden !important;
+      border: 0 !important;
+    }
+  </style>
 </head>
 <body>
-  <audio id="bg-music" src="assets/music.wav" loop preload="auto" playsinline></audio>
   <canvas id="stars" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
 
   <button id="mute" class="mute hidden" type="button" aria-label="كتم الصوت">♪</button>
+  <div id="yt-wrap" class="yt-wrap" aria-hidden="true" style="position:fixed;left:-200vw;top:-200vh;width:200px;height:112px;opacity:0;overflow:hidden;pointer-events:none;z-index:-9999;transform:translate(-200vw,-200vh)">
+    <div id="yt-player"></div>
+  </div>
 
   <main id="app">
     <!-- INTRO -->
     <section class="scene is-on" id="scene-intro" data-scene="intro">
       <div class="center-stack">
-        <p class="date-line reveal" style="--d:0.6s">23 سبتمبر <img class="flag-icon" src="assets/ksa-flag.svg" alt="" /></p>
+        <p class="date-line reveal" style="--d:0.6s">23 سبتمبر <img class="flag-icon" src="assets/ksa-flag.svg?v=2" alt="" /></p>
         <p class="lead reveal" style="--d:2.1s">في هذا اليوم يحتفل الجميع بوطنهم...</p>
         <button class="ghost-btn reveal" style="--d:4s" type="button" data-go="homeland" data-music>
           وأنا أيضًا عندي وطن أحتفل فيه 🤍
@@ -58,73 +79,24 @@
       <div class="center-stack peak-stack">
         <h1 class="her-name reveal-name" id="her-name">يارا🤍</h1>
         <p class="found reveal" style="--d:4.2s">لقيته.</p>
-        <p class="peak-line reveal" style="--d:6s"><img class="flag-icon" src="assets/ksa-flag.svg" alt="" /> أنتِ هي وطني ❤️</p>
+        <p class="peak-line reveal" style="--d:6s"><img class="flag-icon" src="assets/ksa-flag.svg?v=2" alt="" /> أنتِ هي وطني ❤️</p>
         <div class="peak-poem">
           <p class="verse reveal" style="--d:8s">إذا كان الوطن هو الأمان،</p>
           <p class="verse verse-emphasis reveal" style="--d:9.4s">فأنتِ أماني.</p>
           <p class="verse reveal" style="--d:11.2s">وإذا كان الوطن هو المكان<br />اللي ينتمي له القلب،</p>
           <p class="verse verse-emphasis reveal" style="--d:12.8s">فقلبي من زمان اختارك أنتِ.</p>
         </div>
-        <button class="ghost-btn reveal" style="--d:15s" type="button" data-go="photos">
-          وطني في صور 📷
-        </button>
-      </div>
-    </section>
-
-    <!-- CHAPTER 3 -->
-    <section class="scene scene-scroll" id="scene-photos" data-scene="photos">
-      <div class="scroll-inner">
-        <header class="chapter-head">
-          <p class="kicker">الفصل الثالث</p>
-          <h2>وطني في صور</h2>
-          <p class="hint">انزلي بهدوء... كل ذكرى بتظهر لوحدها.</p>
-        </header>
-
-        <div class="timeline">
-          <article class="memory" data-observe>
-            <p class="memory-title">أول صورة أحبها لنا</p>
-            <figure class="polaroid">
-              <img src="assets/photos/memory-1.jpg" alt="أول صورة أحبها لنا" />
-            </figure>
-            <p class="hand">من هنا أحس إني رجعت البيت.</p>
-          </article>
-
-          <article class="memory" data-observe>
-            <p class="memory-title">لحظة ما أنساها</p>
-            <figure class="polaroid tilt-left">
-              <img src="assets/photos/memory-2.jpg" alt="لحظة ما أنساها" />
-            </figure>
-            <p class="hand">لو أقدر أرجع لها… أرجع.</p>
-          </article>
-
-          <article class="memory" data-observe>
-            <p class="memory-title">يوم كنتِ فيه أجمل شيء في يومي</p>
-            <figure class="polaroid tilt-right">
-              <img src="assets/photos/memory-3.jpg" alt="يوم كنتِ فيه أجمل شيء في يومي" />
-            </figure>
-            <p class="hand">ما كنت أركز إلا فيك.</p>
-          </article>
-
-          <article class="memory" data-observe>
-            <p class="memory-title">صورة كل ما أشوفها أبتسم</p>
-            <figure class="polaroid">
-              <img src="assets/photos/memory-4.jpg" alt="صورة كل ما أشوفها أبتسم" />
-            </figure>
-            <p class="hand">كل مرة… نفس الابتسامة.</p>
-          </article>
-        </div>
-
-        <button class="ghost-btn continue-btn" type="button" data-go="loves">
+        <button class="ghost-btn reveal" style="--d:15s" type="button" data-go="loves">
           أشياء أحبها في وطني 🤍
         </button>
       </div>
     </section>
 
-    <!-- CHAPTER 4 -->
+    <!-- CHAPTER 3 -->
     <section class="scene scene-scroll" id="scene-loves" data-scene="loves">
       <div class="scroll-inner loves-inner">
         <header class="chapter-head">
-          <p class="kicker">الفصل الرابع</p>
+          <p class="kicker">الفصل الثالث</p>
           <h2>أشياء أحبها في وطني</h2>
         </header>
 
@@ -197,7 +169,7 @@
     <section class="scene" id="scene-finale" data-scene="finale">
       <div class="finale-glow" aria-hidden="true"></div>
       <div class="center-stack finale-stack">
-        <p class="finale-line" id="f1">كل عام والسعودية وطن <img class="flag-icon" src="assets/ksa-flag.svg" alt="" /></p>
+        <p class="finale-line" id="f1">كل عام والسعودية وطن <img class="flag-icon" src="assets/ksa-flag.svg?v=2" alt="" /></p>
         <p class="finale-line" id="f2">وكل عام وأنتِ وطني. ❤️</p>
         <p class="finale-line finale-soft" id="f3">أحبكِ أكثر من كل عام مضى،</p>
         <p class="finale-line finale-soft" id="f4">وأتمنى أحتفل فيكِ بكل عام جاي.</p>
@@ -218,6 +190,6 @@
     </section>
   </main>
 
-  <script src="js/main.js" charset="utf-8"></script>
+  <script src="js/main.js?v=nophotos" charset="utf-8"></script>
 </body>
 </html>

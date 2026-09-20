@@ -168,11 +168,14 @@ img {
 }
 
 .flag-icon {
-  width: 1.15em;
+  width: 1.7em;
   height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
   display: inline-block;
   vertical-align: middle;
-  filter: drop-shadow(0 0 10px rgba(61, 220, 130, 0.35));
+  border-radius: 0.14em;
+  box-shadow: 0 0 16px rgba(61, 220, 130, 0.35);
 }
 
 #scene-intro::before {
@@ -761,6 +764,23 @@ img {
   background: rgba(0, 0, 0, 0.35);
   color: var(--cream);
   backdrop-filter: blur(10px);
+}
+
+.yt-wrap,
+.yt-wrap iframe,
+iframe[src*="youtube"],
+iframe[src*="youtube-nocookie"] {
+  position: absolute !important;
+  left: -10000px !important;
+  top: 0 !important;
+  width: 200px !important;
+  height: 112px !important;
+  max-width: 200px !important;
+  max-height: 112px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  overflow: hidden !important;
 }
 
 .mission-ar {
