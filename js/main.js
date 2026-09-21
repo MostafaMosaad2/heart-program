@@ -236,11 +236,68 @@ async function playCountdown() {
     Music.heartbeat();
     await sleep(1150);
   }
-  await showScene("scene-peak");
+  await playSecurity();
+}
+
+async function playSecurity() {
+  await showScene("scene-security");
+  const denied = $("#sec-denied");
+  const scan = $("#sec-scan");
+  const fill = $("#sec-fill");
+  const pct = $("#sec-pct");
+  const card = $("#sec-card");
+  const enter = $("#enter-homeland");
+
+  denied.classList.remove("hidden");
+  scan.classList.add("hidden");
+  card.classList.add("hidden");
+  enter.classList.add("hidden");
+  fill.style.width = "0%";
+  pct.textContent = "0%";
+
+  await sleep(2200);
+  denied.classList.add("hidden");
+  scan.classList.remove("hidden");
+  await sleep(400);
+
+  const steps = [0, 18, 37, 37, 52, 68, 68, 84, 93, 100];
+  for (const p of steps) {
+    fill.style.width = p + "%";
+    pct.textContent = p + "%";
+    await sleep(p === 100 ? 350 : 220);
+  }
+
+  await sleep(450);
+  scan.classList.add("hidden");
+  card.classList.remove("hidden");
+  await sleep(900);
+  enter.classList.remove("hidden");
+}
+
+function revealStoryBeat(index) {
+  const beat = $(`.story-beat[data-beat="${index}"]`);
+  if (!beat) return;
+  beat.classList.add("is-on");
+  beat.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (index === 3) {
+    setTimeout(() => {
+      $("#story-to-gifts").classList.remove("hidden");
+      $("#story-to-gifts").scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 1400);
+  }
+}
+
+async function playStory() {
+  await showScene("scene-story");
+  $$(".story-beat").forEach((beat) => beat.classList.remove("is-on"));
+  $("#story-to-gifts").classList.add("hidden");
+  await sleep(500);
+  revealStoryBeat(0);
 }
 
 function rainHearts() {
   const field = $("#heart-field");
+  field.innerHTML = "";
   const glyphs = ["🤍", "❤️", "💚"];
   for (let i = 0; i < 70; i++) {
     const span = document.createElement("span");
@@ -250,6 +307,51 @@ function rainHearts() {
     span.style.fontSize = 12 + Math.random() * 18 + "px";
     span.style.animationDuration = 4.5 + Math.random() * 5 + "s";
     span.style.animationDelay = Math.random() * 2.4 + "s";
+    field.appendChild(span);
+  }
+}
+
+function burstCelebrate() {
+  const field = $("#confetti-field");
+  field.innerHTML = "";
+  const colors = ["#006c35", "#1a8f52", "#d4b56a", "#f3ead8", "#ff8a9a", "#ffffff"];
+  const hearts = ["❤️", "🤍", "💚"];
+
+  for (let i = 0; i < 58; i++) {
+    const bit = document.createElement("span");
+    bit.className = "confetti-bit";
+    bit.style.background = colors[i % colors.length];
+    const angle = (Math.PI * 2 * i) / 58 + Math.random() * 0.4;
+    const dist = 90 + Math.random() * 220;
+    bit.style.setProperty("--x", Math.cos(angle) * dist + "px");
+    bit.style.setProperty("--y", Math.sin(angle) * dist - 40 + "px");
+    bit.style.setProperty("--r", -80 + Math.random() * 160 + "deg");
+    bit.style.animationDuration = 1.6 + Math.random() * 1.4 + "s";
+    field.appendChild(bit);
+  }
+
+  for (let i = 0; i < 24; i++) {
+    const heart = document.createElement("span");
+    heart.className = "confetti-heart";
+    heart.textContent = hearts[i % hearts.length];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 60 + Math.random() * 240;
+    heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
+    heart.style.setProperty("--y", Math.sin(angle) * dist - 80 + "px");
+    heart.style.setProperty("--r", -40 + Math.random() * 80 + "deg");
+    heart.style.fontSize = 14 + Math.random() * 16 + "px";
+    heart.style.animationDuration = 2 + Math.random() * 1.4 + "s";
+    field.appendChild(heart);
+  }
+
+  for (let i = 0; i < 36; i++) {
+    const span = document.createElement("span");
+    span.className = "falling-heart";
+    span.textContent = hearts[i % hearts.length];
+    span.style.left = Math.random() * 100 + "%";
+    span.style.fontSize = 12 + Math.random() * 18 + "px";
+    span.style.animationDuration = 4.5 + Math.random() * 5 + "s";
+    span.style.animationDelay = Math.random() * 2.2 + "s";
     field.appendChild(span);
   }
 }
@@ -266,6 +368,47 @@ async function playFinale() {
   $("#before-close").classList.remove("hidden");
 }
 
+async function playMission() {
+  await showScene("scene-mission");
+  $("#mission-complete").classList.remove("hidden");
+  $("#mission-twist").classList.add("hidden");
+  $("#twist-1").classList.remove("hidden");
+  ["twist-1", "twist-2", "twist-3", "twist-4"].forEach((id) => {
+    document.getElementById(id).classList.remove("is-on");
+  });
+  $("#last-promise").classList.add("hidden");
+  rainHearts();
+
+  await sleep(5200);
+  await sleep(2000);
+
+  const blackout = $("#blackout");
+  blackout.classList.add("is-on");
+  await sleep(2000);
+
+  $("#mission-complete").classList.add("hidden");
+  $("#heart-field").innerHTML = "";
+  $("#mission-twist").classList.remove("hidden");
+  blackout.classList.remove("is-on");
+
+  await sleep(700);
+  $("#twist-1").classList.add("is-on");
+  await sleep(1800);
+  $("#twist-1").classList.add("hidden");
+  $("#twist-2").classList.add("is-on");
+  await sleep(2000);
+  $("#twist-3").classList.add("is-on");
+  await sleep(1800);
+  $("#twist-4").classList.add("is-on");
+  await sleep(1600);
+  $("#last-promise").classList.remove("hidden");
+}
+
+async function playLastLove() {
+  await showScene("scene-last");
+  burstCelebrate();
+}
+
 function bindUi() {
   $("#her-name").textContent = CONFIG.herName + "🤍";
 
@@ -275,11 +418,19 @@ function bindUi() {
   }
 
   document.addEventListener("click", async (e) => {
+    const nextBeat = e.target.closest("[data-reveal]");
+    if (nextBeat) {
+      nextBeat.classList.add("hidden");
+      revealStoryBeat(Number(nextBeat.getAttribute("data-reveal")));
+      return;
+    }
+
     const btn = e.target.closest("[data-go]");
     if (!btn) return;
     if (btn.hasAttribute("data-music")) Music.start();
     const dest = btn.getAttribute("data-go");
     if (dest === "countdown") return playCountdown();
+    if (dest === "story") return playStory();
     if (dest === "finale") return playFinale();
     await showScene("scene-" + dest);
   });
@@ -307,13 +458,18 @@ function bindUi() {
 
   $("#open-gift-2").addEventListener("click", () => {
     $("#open-gift-2").classList.add("hidden");
-    $("#second-gift").classList.remove("hidden");
+    $("#gift-gate").classList.remove("hidden");
   });
 
-  $("#before-close").addEventListener("click", async () => {
-    await showScene("scene-mission");
-    rainHearts();
+  $("#smile-promise").addEventListener("click", async () => {
+    $("#gift-gate").classList.add("hidden");
+    await sleep(180);
+    $("#second-gift").classList.remove("hidden");
+    $("#second-gift").scrollIntoView({ behavior: "smooth", block: "center" });
   });
+
+  $("#before-close").addEventListener("click", () => playMission());
+  $("#last-promise").addEventListener("click", () => playLastLove());
 }
 
 function applyPreview() {
@@ -326,6 +482,15 @@ function applyPreview() {
     return;
   }
   showScene("scene-" + scene, true);
+  if (scene === "security") {
+    $("#sec-scan").classList.add("hidden");
+    $("#sec-card").classList.remove("hidden");
+    $("#enter-homeland").classList.remove("hidden");
+  }
+  if (scene === "story") {
+    $$(".story-beat").forEach((beat) => beat.classList.add("is-on"));
+    $("#story-to-gifts").classList.remove("hidden");
+  }
   if (scene === "gifts") {
     $("#open-gift-1").classList.add("hidden");
     $("#envelope").classList.add("is-ready", "is-open", "is-gone");
@@ -336,7 +501,16 @@ function applyPreview() {
     $$(".finale-line").forEach((el) => el.classList.add("show"));
     $("#before-close").classList.remove("hidden");
   }
-  if (scene === "mission") rainHearts();
+  if (scene === "mission") {
+    $("#mission-complete").classList.add("hidden");
+    $("#mission-twist").classList.remove("hidden");
+    $("#twist-1").classList.add("hidden");
+    ["twist-2", "twist-3", "twist-4"].forEach((id) => {
+      document.getElementById(id).classList.add("is-on");
+    });
+    $("#last-promise").classList.remove("hidden");
+  }
+  if (scene === "last") burstCelebrate();
 }
 
 createStars();

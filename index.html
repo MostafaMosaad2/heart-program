@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <link rel="stylesheet" href="css/style.css?v=nophotos" />
+  <link rel="stylesheet" href="css/style.css?v=end2" />
   <style>
     #yt-wrap,
     #yt-wrap iframe,
@@ -32,8 +32,10 @@
 </head>
 <body>
   <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="motif-layer" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
+  <div class="blackout" id="blackout" aria-hidden="true"></div>
 
   <button id="mute" class="mute hidden" type="button" aria-label="كتم الصوت">♪</button>
   <div id="yt-wrap" class="yt-wrap" aria-hidden="true" style="position:fixed;left:-200vw;top:-200vh;width:200px;height:112px;opacity:0;overflow:hidden;pointer-events:none;z-index:-9999;transform:translate(-200vw,-200vh)">
@@ -43,8 +45,10 @@
   <main id="app">
     <!-- INTRO -->
     <section class="scene is-on" id="scene-intro" data-scene="intro">
+      <div class="najdi-edge" aria-hidden="true"></div>
       <div class="center-stack">
         <p class="date-line reveal" style="--d:0.6s">23 سبتمبر <img class="flag-icon" src="assets/ksa-flag.svg?v=2" alt="" /></p>
+        <div class="sadu-band reveal" style="--d:1.4s" aria-hidden="true"></div>
         <p class="lead reveal" style="--d:2.1s">في هذا اليوم يحتفل الجميع بوطنهم...</p>
         <button class="ghost-btn reveal" style="--d:4s" type="button" data-go="homeland" data-music>
           وأنا أيضًا عندي وطن أحتفل فيه 🤍
@@ -55,8 +59,10 @@
     <!-- CHAPTER 1 -->
     <section class="scene" id="scene-homeland" data-scene="homeland">
       <div class="saudi-wash" aria-hidden="true"></div>
+      <div class="najdi-edge" aria-hidden="true"></div>
       <div class="center-stack poem-stack">
         <p class="kicker reveal" style="--d:0.4s">الفصل الأول — الوطن</p>
+        <div class="sadu-band sadu-thin reveal" style="--d:0.9s" aria-hidden="true"></div>
         <p class="verse reveal" style="--d:1.6s">الوطن مو مجرد مكان...</p>
         <p class="verse reveal" style="--d:3.4s">الوطن هو المكان اللي نحس فيه بالأمان.</p>
         <p class="verse reveal" style="--d:5.2s">المكان اللي نرجع له مهما تعبنا.</p>
@@ -72,6 +78,45 @@
     <section class="scene" id="scene-countdown" data-scene="countdown">
       <div class="heartbeat-ring" id="heartbeat-ring" aria-hidden="true"></div>
         <div class="count-num" id="count-num" dir="ltr"></div>
+    </section>
+
+    <!-- SECURITY CHECK -->
+    <section class="scene" id="scene-security" data-scene="security">
+      <div class="najdi-edge" aria-hidden="true"></div>
+      <div class="center-stack security-stack">
+        <p class="security-denied" id="sec-denied">للأسف، هذه الصفحة خاصة بمواطنة واحدة فقط.</p>
+
+        <div class="security-scan hidden" id="sec-scan">
+          <p class="scan-label">جاري التحقق من الهوية…</p>
+          <div class="scan-track" dir="ltr">
+            <div class="scan-fill" id="sec-fill"></div>
+          </div>
+          <p class="scan-pct" id="sec-pct" dir="ltr">0%</p>
+        </div>
+
+        <article class="id-card hidden" id="sec-card">
+          <p class="id-found">✅ تم العثور عليها</p>
+          <div class="sadu-band sadu-thin" aria-hidden="true"></div>
+          <dl class="id-fields">
+            <div>
+              <dt>الاسم</dt>
+              <dd>يارا 🤍</dd>
+            </div>
+            <div>
+              <dt>الجنسية</dt>
+              <dd>وطن قلبي</dd>
+            </div>
+            <div>
+              <dt>الحالة</dt>
+              <dd>محتلة القلب بالكامل ❤️😂</dd>
+            </div>
+          </dl>
+        </article>
+
+        <button class="ghost-btn hidden" id="enter-homeland" type="button" data-go="peak">
+          دخول الوطن 🤍
+        </button>
+      </div>
     </section>
 
     <!-- CHAPTER 2 — peak -->
@@ -98,6 +143,7 @@
         <header class="chapter-head">
           <p class="kicker">الفصل الثالث</p>
           <h2>أشياء أحبها في وطني</h2>
+          <div class="sadu-band sadu-thin" aria-hidden="true"></div>
         </header>
 
         <div class="card-sky" id="love-cards">
@@ -125,8 +171,54 @@
 
         <div class="final-love hidden" id="final-love">
           <p>إنك أنتِ. بدون أي سبب ثاني. ❤️</p>
-          <button class="ghost-btn" type="button" data-go="gifts">عندك هديتين 🎁</button>
+          <button class="ghost-btn" type="button" data-go="story">حكاية وطن 🤍</button>
         </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4 — Our Story -->
+    <section class="scene scene-scroll" id="scene-story" data-scene="story">
+      <div class="scroll-inner story-inner">
+        <header class="chapter-head">
+          <p class="kicker">الفصل الرابع — حكاية وطن 🤍</p>
+          <div class="sadu-band" aria-hidden="true"></div>
+        </header>
+
+        <div class="story-timeline" id="story-timeline">
+          <article class="story-beat" data-beat="0">
+            <span class="story-dot" aria-hidden="true"></span>
+            <p class="story-title">أول مرة عرفتك</p>
+            <p class="story-date">📍 10-08-2024</p>
+            <p class="story-quote">“ما كنت أعرف وقتها إن هذا اليوم بيغير أشياء كثيرة.”</p>
+            <button class="story-next" type="button" data-reveal="1" aria-label="التالي">↓</button>
+          </article>
+
+          <article class="story-beat" data-beat="1">
+            <span class="story-dot" aria-hidden="true"></span>
+            <p class="story-title">أول مرة حسيت إني أحبك</p>
+            <p class="story-date">❤️ 10-09-2024</p>
+            <p class="story-quote">“هنا بدأت أفهم إن الموضوع أكبر من مجرد إعجاب .”</p>
+            <button class="story-next" type="button" data-reveal="2" aria-label="التالي">↓</button>
+          </article>
+
+          <article class="story-beat" data-beat="2">
+            <span class="story-dot" aria-hidden="true"></span>
+            <p class="story-title">اليوم الي عبرت فيه عن الي في قلبي بعد سنتين 😂</p>
+            <p class="story-date">01-08-2026 ❤️</p>
+            <button class="story-next" type="button" data-reveal="3" aria-label="التالي">↓</button>
+          </article>
+
+          <article class="story-beat story-beat-now" data-beat="3">
+            <span class="story-dot" aria-hidden="true"></span>
+            <p class="story-title">واليوم — 23 سبتمبر</p>
+            <p class="story-date"><img class="flag-icon flag-tiny" src="assets/ksa-flag.svg?v=2" alt="" /> اليوم الوطني</p>
+            <p class="story-quote story-quote-now">“صار عندي وطنين…<br />وطن أعيش فيه،<br />ووطن يعيش فيني.”</p>
+          </article>
+        </div>
+
+        <button class="ghost-btn hidden" id="story-to-gifts" type="button" data-go="gifts">
+          عندك هديتين 🎁
+        </button>
       </div>
     </section>
 
@@ -134,6 +226,7 @@
     <section class="scene scene-scroll" id="scene-gifts" data-scene="gifts">
       <div class="scroll-inner gifts-inner">
         <h2 class="gifts-title">عندك هديتين 🎁</h2>
+        <div class="sadu-band sadu-thin" aria-hidden="true"></div>
 
         <div class="gift-stage" id="gift-one-stage">
           <button class="gift-open" id="open-gift-1" type="button">🎁 افتحي الهدية الأولى</button>
@@ -154,7 +247,14 @@
         </div>
 
         <div class="gift-stage hidden" id="gift-two-stage">
-          <button class="gift-open" id="open-gift-2" type="button">🎁 الهدية الثانية</button>
+          <button class="gift-open" id="open-gift-2" type="button">🎁 افتحي الهدية الثانية</button>
+
+          <div class="gift-gate hidden" id="gift-gate">
+            <p class="gate-before">بس قبلها…</p>
+            <p class="gate-rule">ممنوع تفتحينها إلا وأنتِ مبتسمة 👀</p>
+            <button class="ghost-btn" id="smile-promise" type="button">أوعدك إني مبتسمة 🤍</button>
+          </div>
+
           <div class="second-gift hidden" id="second-gift">
             <p class="wink">الهدية الثانية ما تنفع داخل موقع 😉</p>
             <button class="ghost-btn" type="button" data-go="finale">
@@ -168,6 +268,7 @@
     <!-- FINALE -->
     <section class="scene" id="scene-finale" data-scene="finale">
       <div class="finale-glow" aria-hidden="true"></div>
+      <div class="najdi-edge" aria-hidden="true"></div>
       <div class="center-stack finale-stack">
         <p class="finale-line" id="f1">كل عام والسعودية وطن <img class="flag-icon" src="assets/ksa-flag.svg?v=2" alt="" /></p>
         <p class="finale-line" id="f2">وكل عام وأنتِ وطني. ❤️</p>
@@ -182,14 +283,36 @@
     <!-- MISSION -->
     <section class="scene" id="scene-mission" data-scene="mission">
       <div class="heart-field" id="heart-field" aria-hidden="true"></div>
-      <div class="center-stack mission-stack">
+      <div class="center-stack mission-stack" id="mission-complete">
         <p class="mission-text">ترى سويت كل هذا عشان أشوف<br />ابتسامتك الآن.</p>
         <p class="mission-text">إذا ابتسمتي… فالمهمة نجحت. 🤍</p>
         <p class="mission-done" dir="ltr">Mission: <span class="mission-ar">وطن ❤️</span> — Completed ✓</p>
       </div>
+
+      <div class="center-stack twist-stack hidden" id="mission-twist">
+        <p class="twist-line" id="twist-1">لحظة…</p>
+        <p class="twist-line twist-ask" id="twist-2">مين قال إن المهمة انتهت؟</p>
+        <div class="mission-card" id="twist-3">
+          <p class="mission-card-title" dir="ltr">Mission: <span class="mission-ar">وطن ❤️</span></p>
+          <p class="mission-card-done">Completed ✓</p>
+          <p class="to-be" dir="ltr">To be continued… ♾️</p>
+        </div>
+        <p class="twist-quote" id="twist-4">لأن حكايتي معك<br />ما أبي لها نهاية. 🤍</p>
+        <button class="tiny-btn hidden" id="last-promise" type="button">
+          اضغطي هنا آخر شيء، أوعدك 😂
+        </button>
+      </div>
+    </section>
+
+    <!-- LAST LOVE -->
+    <section class="scene" id="scene-last" data-scene="last">
+      <div class="confetti-field" id="confetti-field" aria-hidden="true"></div>
+      <div class="center-stack last-stack">
+        <h1 class="last-love" id="last-love">أحبك يا يارا ❤️</h1>
+      </div>
     </section>
   </main>
 
-  <script src="js/main.js?v=nophotos" charset="utf-8"></script>
+  <script src="js/main.js?v=end2" charset="utf-8"></script>
 </body>
 </html>
