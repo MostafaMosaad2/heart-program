@@ -236,7 +236,7 @@ async function playCountdown() {
     Music.heartbeat();
     await sleep(1150);
   }
-  await playSecurity();
+  await showScene("scene-peak");
 }
 
 async function playSecurity() {
@@ -430,6 +430,7 @@ function bindUi() {
     if (btn.hasAttribute("data-music")) Music.start();
     const dest = btn.getAttribute("data-go");
     if (dest === "countdown") return playCountdown();
+    if (dest === "security") return playSecurity();
     if (dest === "story") return playStory();
     if (dest === "finale") return playFinale();
     await showScene("scene-" + dest);
