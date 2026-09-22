@@ -406,7 +406,42 @@ async function playMission() {
 
 async function playLastLove() {
   await showScene("scene-last");
-  burstCelebrate();
+  const letter = $("#last-letter");
+  letter.classList.remove("is-gone");
+  $("#the-end").disabled = false;
+  const field = $("#confetti-field");
+  field.classList.remove("is-screen");
+  field.innerHTML = "";
+}
+
+function popHearts(field, count) {
+  const hearts = ["❤️", "🤍", "💚", "💖"];
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("span");
+    heart.className = "pop-heart";
+    heart.textContent = hearts[i % hearts.length];
+    heart.style.left = 4 + Math.random() * 92 + "%";
+    heart.style.top = 4 + Math.random() * 90 + "%";
+    heart.style.fontSize = 22 + Math.random() * 34 + "px";
+    heart.style.animationDelay = Math.random() * 0.45 + "s";
+    field.appendChild(heart);
+  }
+}
+
+function endProgram() {
+  const btn = $("#the-end");
+  if (btn.disabled) return;
+  btn.disabled = true;
+  $("#last-letter").classList.add("is-gone");
+  $("#mute").classList.add("hidden");
+
+  const field = $("#confetti-field");
+  field.classList.add("is-screen");
+  field.innerHTML = "";
+  document.body.appendChild(field);
+  popHearts(field, 28);
+  setTimeout(() => popHearts(field, 36), 280);
+  setTimeout(() => popHearts(field, 24), 700);
 }
 
 function bindUi() {
@@ -471,6 +506,7 @@ function bindUi() {
 
   $("#before-close").addEventListener("click", () => playMission());
   $("#last-promise").addEventListener("click", () => playLastLove());
+  $("#the-end").addEventListener("click", () => endProgram());
 }
 
 function applyPreview() {
@@ -511,7 +547,6 @@ function applyPreview() {
     });
     $("#last-promise").classList.remove("hidden");
   }
-  if (scene === "last") burstCelebrate();
 }
 
 createStars();

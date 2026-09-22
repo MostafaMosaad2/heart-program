@@ -1141,21 +1141,91 @@ img {
   line-height: 2;
 }
 
-.last-stack {
-  gap: 0;
+.last-letter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+  padding-top: 36px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.scene.is-on .last-letter {
+  animation: rise 1.5s ease forwards;
+}
+
+.last-letter.is-gone,
+html.preview .last-letter.is-gone {
+  display: none !important;
 }
 
 .last-love {
   font-family: var(--font-hand);
-  font-size: clamp(2.4rem, 12vw, 5.2rem);
-  line-height: 1.35;
+  font-size: clamp(1.85rem, 7.4vw, 2.8rem);
+  line-height: 1.45;
   text-shadow: 0 0 36px rgba(255, 138, 154, 0.4), 0 0 70px var(--green-glow);
-  opacity: 0;
-  transform: scale(0.92);
 }
 
-.scene.is-on .last-love {
-  animation: nameIn 2.4s ease forwards;
+.last-poem {
+  width: min(520px, 100%);
+  font-family: var(--font-poem);
+  font-size: clamp(1.08rem, 3.8vw, 1.38rem);
+  line-height: 2.05;
+  color: var(--cream-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.last-strong,
+.last-name {
+  color: var(--cream);
+}
+
+.last-name {
+  font-family: var(--font-hand);
+  font-size: clamp(1.45rem, 5.4vw, 2rem);
+  line-height: 1.6;
+}
+
+.last-close {
+  color: var(--gold);
+}
+
+.the-end-btn {
+  margin-top: 8px;
+}
+
+.confetti-field.is-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.pop-heart {
+  position: fixed;
+  z-index: 60;
+  animation: heartPop 0.9s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px rgba(255, 138, 154, 0.45));
+}
+
+@keyframes heartPop {
+  0% {
+    transform: translate(-50%, 28px) scale(0.15);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -6px) scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
 }
 
 .confetti-field {
@@ -1258,7 +1328,8 @@ html.preview .story-beat,
 html.preview .twist-line,
 html.preview .twist-quote,
 html.preview .mission-card,
-html.preview .last-love {
+html.preview .last-love,
+html.preview .last-letter {
   opacity: 1 !important;
   transform: none !important;
   filter: none !important;
